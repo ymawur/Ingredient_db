@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import { Header } from '@/components/Header';
 import { SearchBar } from '@/components/SearchBar';
 import { FilterPanel } from '@/components/FilterPanel';
@@ -7,6 +7,7 @@ import { IngredientProfile } from '@/components/IngredientProfile';
 import { ComparisonView } from '@/components/ComparisonView';
 import { CategoryDirectory } from '@/components/CategoryDirectory';
 import { QuickFilters } from '@/components/QuickFilters';
+import { AddIngredientDialog, type AddIngredientFormValues } from '@/components/AddIngredientDialog';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Filter, ChevronRight } from 'lucide-react';
@@ -18,11 +19,37 @@ import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
 
 type ViewState = 'browse' | 'profile' | 'comparison';
+const STORAGE_KEY = 'ingredient-db-user-entries';
 
 function App() {
   const [currentView, setCurrentView] = useState<ViewState>('browse');
   const [selectedIngredient, setSelectedIngredient] = useState<Ingredient | null>(null);
   const [filterSheetOpen, setFilterSheetOpen] = useState(false);
+  const [userIngredients, setUserIngredients] = useState<Ingredient[]>(() => {
+    if (typeof window === 'undefined') {
+      return [];
+    }
+
+    const stored = window.localStorage.getItem(STORAGE_KEY);
+    if (!stored) {
+      return [];
+    }
+
+    try {
+      return JSON.parse(stored) as Ingredient[];
+    } catch {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(userIngredients));
+  }, [userIngredients]);
+
+  const ingredientList = useMemo(
+    () => [...userIngredients, ...ingredients],
+    [userIngredients]
+  );
 
   const {
     filters,
@@ -34,7 +61,7 @@ function App() {
     setpHRange,
     setWaterActivityRange,
     clearFilters,
-  } = useFilters(ingredients);
+  } = useFilters(ingredientList);
 
   const {
     comparisonList,
@@ -51,11 +78,11 @@ function App() {
   // Calculate ingredient counts per category
   const ingredientCounts = useMemo(() => {
     const counts: Record<string, number> = {};
-    ingredients.forEach(ing => {
+    ingredientList.forEach(ing => {
       counts[ing.category] = (counts[ing.category] || 0) + 1;
     });
     return counts;
-  }, []);
+  }, [ingredientList]);
 
   const handleViewDetails = useCallback((ingredient: Ingredient) => {
     setSelectedIngredient(ingredient);
@@ -89,12 +116,72 @@ function App() {
   }, [isInComparison, canAddMore, addToComparison, removeFromComparison, comparisonCount]);
 
   const handleReplaceInComparison = useCallback((oldId: string, newId: string) => {
-    const newIngredient = ingredients.find(i => i.id === newId);
+    const newIngredient = ingredientList.find(i => i.id === newId);
     if (newIngredient) {
       replaceInComparison(oldId, newIngredient);
       toast.success(`Replaced with ${newIngredient.name}`);
     }
-  }, [replaceInComparison]);
+  }, [ingredientList, replaceInComparison]);
+
+  const handleAddIngredient = useCallback((values: AddIngredientFormValues) => {
+    const now = new Date();
+    const formattedDate = now.toISOString().split('T')[0];
+    const parseNumberWithFallback = (value: string, fallback: number) => {
+      if (!value.trim()) {
+        return fallback;
+      }
+
+      const parsed = Number(value);
+      return Number.isNaN(parsed) ? fallback : parsed;
+    };
+
+    const newIngredient: Ingredient = {
+      id: `custom-${now.getTime()}`,
+      name: values.name,
+      nameCN: values.nameCN || '',
+      synonyms: values.synonyms
+        ? values.synonyms.split(',').map((synonym) => synonym.trim()).filter(Boolean)
+        : [],
+      casNumber: values.casNumber || undefined,
+      eNumber: values.eNumber || undefined,
+      category: values.category,
+      description: values.description || undefined,
+      isGlutenFree: values.isGlutenFree,
+      isVegan: values.isVegan,
+      isNatural: values.isNatural,
+      isSynthetic: values.isSynthetic,
+      nutritional: {
+        energy: parseNumberWithFallback(values.energy, 0),
+        protein: parseNumberWithFallback(values.protein, 0),
+        carbs: parseNumberWithFallback(values.carbs, 0),
+        fat: parseNumberWithFallback(values.fat, 0),
+        fiber: parseNumberWithFallback(values.fiber, 0),
+      },
+      physicochemical: {
+        waterActivity: parseNumberWithFallback(values.waterActivity, 0),
+        pH: parseNumberWithFallback(values.pH, 0),
+        density: values.density.trim() ? parseNumberWithFallback(values.density, 0) : undefined,
+        measurementTemp: values.measurementTemp.trim()
+          ? parseNumberWithFallback(values.measurementTemp, 0)
+          : undefined,
+      },
+      regulatory: {
+        eu: { approved: values.isEUApproved, eNumber: values.eNumber || undefined },
+        fda: { gras: values.isGRAS },
+        china: { compliant: values.isChinaCompliant },
+      },
+      allergens: [],
+      commonUses: values.commonUses
+        ? values.commonUses.split(',').map((use) => use.trim()).filter(Boolean)
+        : [],
+      maxDosage: undefined,
+      createdAt: formattedDate,
+      updatedAt: formattedDate,
+    };
+
+    setUserIngredients((prev) => [newIngredient, ...prev]);
+    toast.success(`${newIngredient.name} added to the ingredient database`);
+  }, []);
 
   // Breadcrumb navigation
   const renderBreadcrumbs = () => {
@@ -186,7 +273,7 @@ function App() {
               {/* Main Content */}
               <div className="flex-1 space-y-4">
                 {/* Search Bar */}
-                <div className="flex gap-2">
+                <div className="flex flex-col gap-2 sm:flex-row">
                   <div className="flex-1">
                     <SearchBar
                       value={filters.searchQuery}
@@ -194,6 +281,7 @@ function App() {
                       placeholder="Search by name, E-number, CAS number, or synonym..."
                     />
                   </div>
+                  <AddIngredientDialog onAdd={handleAddIngredient} />
                   {/* Mobile Filter Button */}
                   <Sheet open={filterSheetOpen} onOpenChange={setFilterSheetOpen}>
                     <SheetTrigger asChild>
@@ -274,7 +362,7 @@ function App() {
               © 2024 INFOTECH. Ingredient Database for Food Industry Professionals.
             </div>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <span>{ingredients.length} ingredients</span>
+              <span>{ingredientList.length} ingredients</span>
               <span>•</span>
               <span>18 categories</span>
             </div>
