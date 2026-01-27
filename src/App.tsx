@@ -126,32 +126,6 @@ function App() {
   const handleAddIngredient = useCallback((values: AddIngredientFormValues) => {
     const now = new Date();
     const formattedDate = now.toISOString().split('T')[0];
-    const parseOptionalNumber = (value: string) => {
-      if (!value.trim()) {
-        return undefined;
-      }
-
-      const parsed = Number(value);
-      return Number.isNaN(parsed) ? undefined : parsed;
-    };
-
-    const nutritional = {
-      energy: parseOptionalNumber(values.energy),
-      protein: parseOptionalNumber(values.protein),
-      carbs: parseOptionalNumber(values.carbs),
-      fat: parseOptionalNumber(values.fat),
-      fiber: parseOptionalNumber(values.fiber),
-    };
-
-    const hasNutritional = Object.values(nutritional).some((value) => value !== undefined);
-    const physicochemical = {
-      waterActivity: parseOptionalNumber(values.waterActivity),
-      pH: parseOptionalNumber(values.pH),
-      density: parseOptionalNumber(values.density),
-      measurementTemp: parseOptionalNumber(values.measurementTemp),
-    };
-    const hasPhysicochemical = Object.values(physicochemical).some((value) => value !== undefined);
-
     const newIngredient: Ingredient = {
       id: `custom-${now.getTime()}`,
       name: values.name,
@@ -167,23 +141,8 @@ function App() {
       isVegan: values.isVegan,
       isNatural: values.isNatural,
       isSynthetic: values.isSynthetic,
-      nutritional: hasNutritional
-        ? {
-            energy: nutritional.energy ?? 0,
-            protein: nutritional.protein ?? 0,
-            carbs: nutritional.carbs ?? 0,
-            fat: nutritional.fat ?? 0,
-            fiber: nutritional.fiber ?? 0,
-          }
-        : undefined,
-      physicochemical: hasPhysicochemical
-        ? {
-            waterActivity: physicochemical.waterActivity ?? 0,
-            pH: physicochemical.pH ?? 0,
-            density: physicochemical.density,
-            measurementTemp: physicochemical.measurementTemp,
-          }
-        : undefined,
+      nutritional: undefined,
+      physicochemical: undefined,
       regulatory: {
         eu: { approved: values.isEUApproved, eNumber: values.eNumber || undefined },
         fda: { gras: values.isGRAS },
