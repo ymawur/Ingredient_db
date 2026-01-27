@@ -38,6 +38,15 @@ const defaultFormValues = {
   eNumber: '',
   synonyms: '',
   commonUses: '',
+  energy: '',
+  protein: '',
+  carbs: '',
+  fat: '',
+  fiber: '',
+  waterActivity: '',
+  pH: '',
+  density: '',
+  measurementTemp: '',
   isGlutenFree: true,
   isVegan: true,
   isNatural: true,
@@ -186,6 +195,103 @@ export function AddIngredientDialog({ onAdd }: AddIngredientDialogProps) {
                 value={formValues.commonUses}
                 onChange={(event) => setFormValues((prev) => ({ ...prev, commonUses: event.target.value }))}
                 placeholder="e.g. Sauces, Dressings"
+              />
+            </div>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-2">
+              <Label htmlFor="ingredient-energy">Energy (kcal/100g)</Label>
+              <Input
+                id="ingredient-energy"
+                type="number"
+                value={formValues.energy}
+                onChange={(event) => setFormValues((prev) => ({ ...prev, energy: event.target.value }))}
+                placeholder="0"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="ingredient-protein">Protein (g/100g)</Label>
+              <Input
+                id="ingredient-protein"
+                type="number"
+                value={formValues.protein}
+                onChange={(event) => setFormValues((prev) => ({ ...prev, protein: event.target.value }))}
+                placeholder="0"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="ingredient-carbs">Carbohydrates (g/100g)</Label>
+              <Input
+                id="ingredient-carbs"
+                type="number"
+                value={formValues.carbs}
+                onChange={(event) => setFormValues((prev) => ({ ...prev, carbs: event.target.value }))}
+                placeholder="0"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="ingredient-fat">Fat (g/100g)</Label>
+              <Input
+                id="ingredient-fat"
+                type="number"
+                value={formValues.fat}
+                onChange={(event) => setFormValues((prev) => ({ ...prev, fat: event.target.value }))}
+                placeholder="0"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="ingredient-fiber">Fiber (g/100g)</Label>
+              <Input
+                id="ingredient-fiber"
+                type="number"
+                value={formValues.fiber}
+                onChange={(event) => setFormValues((prev) => ({ ...prev, fiber: event.target.value }))}
+                placeholder="0"
+              />
+            </div>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-2">
+              <Label htmlFor="ingredient-water-activity">Water activity (aw)</Label>
+              <Input
+                id="ingredient-water-activity"
+                type="number"
+                step="0.01"
+                value={formValues.waterActivity}
+                onChange={(event) => setFormValues((prev) => ({ ...prev, waterActivity: event.target.value }))}
+                placeholder="0"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="ingredient-ph">pH</Label>
+              <Input
+                id="ingredient-ph"
+                type="number"
+                step="0.1"
+                value={formValues.pH}
+                onChange={(event) => setFormValues((prev) => ({ ...prev, pH: event.target.value }))}
+                placeholder="0"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="ingredient-density">Density (g/cm³)</Label>
+              <Input
+                id="ingredient-density"
+                type="number"
+                step="0.01"
+                value={formValues.density}
+                onChange={(event) => setFormValues((prev) => ({ ...prev, density: event.target.value }))}
+                placeholder="Optional"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="ingredient-measurement-temp">Measurement temp (°C)</Label>
+              <Input
+                id="ingredient-measurement-temp"
+                type="number"
+                value={formValues.measurementTemp}
+                onChange={(event) => setFormValues((prev) => ({ ...prev, measurementTemp: event.target.value }))}
+                placeholder="Optional"
               />
             </div>
           </div>

@@ -126,6 +126,15 @@ function App() {
   const handleAddIngredient = useCallback((values: AddIngredientFormValues) => {
     const now = new Date();
     const formattedDate = now.toISOString().split('T')[0];
+    const parseNumberWithFallback = (value: string, fallback: number) => {
+      if (!value.trim()) {
+        return fallback;
+      }
+
+      const parsed = Number(value);
+      return Number.isNaN(parsed) ? fallback : parsed;
+    };
+
     const newIngredient: Ingredient = {
       id: `custom-${now.getTime()}`,
       name: values.name,
@@ -141,8 +150,21 @@ function App() {
       isVegan: values.isVegan,
       isNatural: values.isNatural,
       isSynthetic: values.isSynthetic,
-      nutritional: undefined,
-      physicochemical: undefined,
+      nutritional: {
+        energy: parseNumberWithFallback(values.energy, 0),
+        protein: parseNumberWithFallback(values.protein, 0),
+        carbs: parseNumberWithFallback(values.carbs, 0),
+        fat: parseNumberWithFallback(values.fat, 0),
+        fiber: parseNumberWithFallback(values.fiber, 0),
+      },
+      physicochemical: {
+        waterActivity: parseNumberWithFallback(values.waterActivity, 0),
+        pH: parseNumberWithFallback(values.pH, 0),
+        density: values.density.trim() ? parseNumberWithFallback(values.density, 0) : undefined,
+        measurementTemp: values.measurementTemp.trim()
+          ? parseNumberWithFallback(values.measurementTemp, 0)
+          : undefined,
+      },
       regulatory: {
         eu: { approved: values.isEUApproved, eNumber: values.eNumber || undefined },
         fda: { gras: values.isGRAS },
