@@ -13,6 +13,15 @@ export interface PhysicochemicalSpecs {
   measurementTemp?: number; // °C
 }
 
+export interface TechnoFunctionalities {
+  gelStrength: number; // Bloom g
+  viscosity: number; // mPa·s
+  solubility: number; // % at 20°C
+  waterHoldingCapacity: number; // g water/g
+  emulsifyingCapacity: number; // %
+  foamingCapacity: number; // %
+}
+
 export interface RegulatoryStatus {
   eu?: {
     eNumber?: string;
@@ -65,6 +74,7 @@ export interface Ingredient {
   // Data
   nutritional?: NutritionalValues;
   physicochemical?: PhysicochemicalSpecs;
+  technoFunctionalities?: TechnoFunctionalities;
   regulatory: RegulatoryStatus;
   allergens: AllergenInfo[];
   

@@ -26,6 +26,14 @@ export const ingredients: Ingredient[] = [
       density: 0.52,
       measurementTemp: 25,
     },
+    technoFunctionalities: {
+      gelStrength: 18,
+      viscosity: 220,
+      solubility: 88,
+      waterHoldingCapacity: 3.4,
+      emulsifyingCapacity: 62,
+      foamingCapacity: 55,
+    },
     regulatory: {
       eu: { approved: true },
       fda: { gras: true },
@@ -61,6 +69,14 @@ export const ingredients: Ingredient[] = [
       pH: 7.0,
       density: 0.54,
       measurementTemp: 25,
+    },
+    technoFunctionalities: {
+      gelStrength: 22,
+      viscosity: 260,
+      solubility: 92,
+      waterHoldingCapacity: 3.8,
+      emulsifyingCapacity: 70,
+      foamingCapacity: 60,
     },
     regulatory: {
       eu: { approved: true },
@@ -100,6 +116,14 @@ export const ingredients: Ingredient[] = [
       density: 0.58,
       measurementTemp: 25,
     },
+    technoFunctionalities: {
+      gelStrength: 14,
+      viscosity: 180,
+      solubility: 85,
+      waterHoldingCapacity: 2.9,
+      emulsifyingCapacity: 58,
+      foamingCapacity: 48,
+    },
     regulatory: {
       eu: { approved: true },
       fda: { gras: true },
@@ -135,6 +159,14 @@ export const ingredients: Ingredient[] = [
       pH: 6.2,
       density: 0.48,
       measurementTemp: 25,
+    },
+    technoFunctionalities: {
+      gelStrength: 12,
+      viscosity: 200,
+      solubility: 78,
+      waterHoldingCapacity: 3.1,
+      emulsifyingCapacity: 52,
+      foamingCapacity: 45,
     },
     regulatory: {
       eu: { approved: true },
@@ -172,6 +204,14 @@ export const ingredients: Ingredient[] = [
       density: 0.5,
       measurementTemp: 25,
     },
+    technoFunctionalities: {
+      gelStrength: 16,
+      viscosity: 240,
+      solubility: 80,
+      waterHoldingCapacity: 3.3,
+      emulsifyingCapacity: 56,
+      foamingCapacity: 50,
+    },
     regulatory: {
       eu: { approved: true },
       fda: { gras: true },
@@ -207,6 +247,14 @@ export const ingredients: Ingredient[] = [
       pH: 6.6,
       density: 0.55,
       measurementTemp: 25,
+    },
+    technoFunctionalities: {
+      gelStrength: 20,
+      viscosity: 260,
+      solubility: 82,
+      waterHoldingCapacity: 3.2,
+      emulsifyingCapacity: 64,
+      foamingCapacity: 52,
     },
     regulatory: {
       eu: { approved: true },
@@ -244,6 +292,14 @@ export const ingredients: Ingredient[] = [
       density: 0.53,
       measurementTemp: 25,
     },
+    technoFunctionalities: {
+      gelStrength: 18,
+      viscosity: 230,
+      solubility: 86,
+      waterHoldingCapacity: 3.5,
+      emulsifyingCapacity: 66,
+      foamingCapacity: 58,
+    },
     regulatory: {
       eu: { approved: true },
       fda: { gras: true },
@@ -279,6 +335,14 @@ export const ingredients: Ingredient[] = [
       pH: 6.4,
       density: 0.56,
       measurementTemp: 25,
+    },
+    technoFunctionalities: {
+      gelStrength: 17,
+      viscosity: 210,
+      solubility: 84,
+      waterHoldingCapacity: 3.0,
+      emulsifyingCapacity: 60,
+      foamingCapacity: 50,
     },
     regulatory: {
       eu: { approved: true },
@@ -316,6 +380,14 @@ export const ingredients: Ingredient[] = [
       density: 0.51,
       measurementTemp: 25,
     },
+    technoFunctionalities: {
+      gelStrength: 21,
+      viscosity: 240,
+      solubility: 90,
+      waterHoldingCapacity: 3.6,
+      emulsifyingCapacity: 68,
+      foamingCapacity: 62,
+    },
     regulatory: {
       eu: { approved: true },
       fda: { gras: true },
@@ -351,6 +423,14 @@ export const ingredients: Ingredient[] = [
       pH: 6.4,
       density: 0.49,
       measurementTemp: 25,
+    },
+    technoFunctionalities: {
+      gelStrength: 24,
+      viscosity: 280,
+      solubility: 93,
+      waterHoldingCapacity: 3.9,
+      emulsifyingCapacity: 72,
+      foamingCapacity: 65,
     },
     regulatory: {
       eu: { approved: true },
@@ -388,6 +468,14 @@ export const ingredients: Ingredient[] = [
       density: 0.57,
       measurementTemp: 25,
     },
+    technoFunctionalities: {
+      gelStrength: 13,
+      viscosity: 190,
+      solubility: 76,
+      waterHoldingCapacity: 2.8,
+      emulsifyingCapacity: 50,
+      foamingCapacity: 42,
+    },
     regulatory: {
       eu: { approved: true },
       fda: { gras: true },
@@ -423,6 +511,14 @@ export const ingredients: Ingredient[] = [
       pH: 6.2,
       density: 0.6,
       measurementTemp: 25,
+    },
+    technoFunctionalities: {
+      gelStrength: 19,
+      viscosity: 225,
+      solubility: 87,
+      waterHoldingCapacity: 3.1,
+      emulsifyingCapacity: 59,
+      foamingCapacity: 49,
     },
     regulatory: {
       eu: { approved: true },
@@ -462,6 +558,14 @@ export const ingredients: Ingredient[] = [
       density: 0.55,
       measurementTemp: 25,
     },
+    technoFunctionalities: {
+      gelStrength: 15,
+      viscosity: 205,
+      solubility: 79,
+      waterHoldingCapacity: 3.0,
+      emulsifyingCapacity: 54,
+      foamingCapacity: 46,
+    },
     regulatory: {
       eu: { approved: true },
       fda: { gras: true },
@@ -497,6 +601,14 @@ export const ingredients: Ingredient[] = [
       pH: 6.1,
       density: 0.47,
       measurementTemp: 25,
+    },
+    technoFunctionalities: {
+      gelStrength: 16,
+      viscosity: 215,
+      solubility: 81,
+      waterHoldingCapacity: 3.2,
+      emulsifyingCapacity: 55,
+      foamingCapacity: 47,
     },
     regulatory: {
       eu: { approved: true },
@@ -534,6 +646,14 @@ export const ingredients: Ingredient[] = [
       density: 0.46,
       measurementTemp: 25,
     },
+    technoFunctionalities: {
+      gelStrength: 30,
+      viscosity: 450,
+      solubility: 70,
+      waterHoldingCapacity: 4.5,
+      emulsifyingCapacity: 75,
+      foamingCapacity: 40,
+    },
     regulatory: {
       eu: { approved: true },
       fda: { gras: true },
@@ -570,6 +690,14 @@ export const ingredients: Ingredient[] = [
       density: 0.54,
       measurementTemp: 25,
     },
+    technoFunctionalities: {
+      gelStrength: 26,
+      viscosity: 380,
+      solubility: 74,
+      waterHoldingCapacity: 4.1,
+      emulsifyingCapacity: 70,
+      foamingCapacity: 38,
+    },
     regulatory: {
       eu: { approved: true },
       fda: { gras: true },
@@ -605,6 +733,14 @@ export const ingredients: Ingredient[] = [
       pH: 6.8,
       density: 0.4,
       measurementTemp: 25,
+    },
+    technoFunctionalities: {
+      gelStrength: 12,
+      viscosity: 170,
+      solubility: 68,
+      waterHoldingCapacity: 2.6,
+      emulsifyingCapacity: 48,
+      foamingCapacity: 35,
     },
     regulatory: {
       eu: { approved: true },
@@ -644,6 +780,14 @@ export const ingredients: Ingredient[] = [
       density: 0.42,
       measurementTemp: 25,
     },
+    technoFunctionalities: {
+      gelStrength: 14,
+      viscosity: 195,
+      solubility: 72,
+      waterHoldingCapacity: 2.7,
+      emulsifyingCapacity: 50,
+      foamingCapacity: 36,
+    },
     regulatory: {
       eu: { approved: true },
       fda: { gras: true },
@@ -679,6 +823,14 @@ export const ingredients: Ingredient[] = [
       pH: 6.1,
       density: 0.6,
       measurementTemp: 25,
+    },
+    technoFunctionalities: {
+      gelStrength: 18,
+      viscosity: 240,
+      solubility: 86,
+      waterHoldingCapacity: 3.4,
+      emulsifyingCapacity: 62,
+      foamingCapacity: 52,
     },
     regulatory: {
       eu: { approved: true },
@@ -718,6 +870,14 @@ export const ingredients: Ingredient[] = [
       density: 0.62,
       measurementTemp: 25,
     },
+    technoFunctionalities: {
+      gelStrength: 17,
+      viscosity: 230,
+      solubility: 84,
+      waterHoldingCapacity: 3.2,
+      emulsifyingCapacity: 60,
+      foamingCapacity: 50,
+    },
     regulatory: {
       eu: { approved: true },
       fda: { gras: true },
@@ -753,6 +913,14 @@ export const ingredients: Ingredient[] = [
       pH: 6.1,
       density: 0.58,
       measurementTemp: 25,
+    },
+    technoFunctionalities: {
+      gelStrength: 28,
+      viscosity: 320,
+      solubility: 88,
+      waterHoldingCapacity: 3.6,
+      emulsifyingCapacity: 68,
+      foamingCapacity: 58,
     },
     regulatory: {
       eu: { approved: true },
@@ -791,6 +959,14 @@ export const ingredients: Ingredient[] = [
       density: 0.52,
       measurementTemp: 25,
     },
+    technoFunctionalities: {
+      gelStrength: 25,
+      viscosity: 300,
+      solubility: 86,
+      waterHoldingCapacity: 3.5,
+      emulsifyingCapacity: 66,
+      foamingCapacity: 56,
+    },
     regulatory: {
       eu: { approved: true },
       fda: { gras: true },
@@ -825,6 +1001,14 @@ export const ingredients: Ingredient[] = [
       pH: 6.7,
       density: 0.53,
       measurementTemp: 25,
+    },
+    technoFunctionalities: {
+      gelStrength: 27,
+      viscosity: 310,
+      solubility: 85,
+      waterHoldingCapacity: 3.4,
+      emulsifyingCapacity: 67,
+      foamingCapacity: 55,
     },
     regulatory: {
       eu: { approved: true },
@@ -862,6 +1046,14 @@ export const ingredients: Ingredient[] = [
       density: 0.5,
       measurementTemp: 25,
     },
+    technoFunctionalities: {
+      gelStrength: 20,
+      viscosity: 260,
+      solubility: 92,
+      waterHoldingCapacity: 3.8,
+      emulsifyingCapacity: 74,
+      foamingCapacity: 70,
+    },
     regulatory: {
       eu: { approved: true },
       fda: { gras: true },
@@ -898,6 +1090,14 @@ export const ingredients: Ingredient[] = [
       pH: 6.6,
       density: 0.49,
       measurementTemp: 25,
+    },
+    technoFunctionalities: {
+      gelStrength: 19,
+      viscosity: 250,
+      solubility: 90,
+      waterHoldingCapacity: 3.7,
+      emulsifyingCapacity: 72,
+      foamingCapacity: 68,
     },
     regulatory: {
       eu: { approved: true },

@@ -188,21 +188,22 @@ export function IngredientProfile({
         )}
       </div>
 
-      <Tabs defaultValue="nutritional" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 lg:w-auto">
-          <TabsTrigger value="nutritional">Nutritional</TabsTrigger>
+      <Tabs defaultValue="compositions" className="w-full">
+        <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 lg:w-auto">
+          <TabsTrigger value="compositions">Compositions</TabsTrigger>
           <TabsTrigger value="physicochemical">Physicochemical</TabsTrigger>
+          <TabsTrigger value="techno-functionalities">Techno-functionalities</TabsTrigger>
           <TabsTrigger value="regulatory">Regulatory</TabsTrigger>
           <TabsTrigger value="applications">Applications</TabsTrigger>
         </TabsList>
 
-        {/* Nutritional Panel */}
-        <TabsContent value="nutritional" className="space-y-4">
+        {/* Composition Panel */}
+        <TabsContent value="compositions" className="space-y-4">
           <Card>
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Utensils className="h-5 w-5" />
-                Nutritional Values (per 100g)
+                Composition Values (per 100g)
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -245,7 +246,7 @@ export function IngredientProfile({
                   </div>
                 </div>
               ) : (
-                <p className="text-muted-foreground">No nutritional data available.</p>
+                <p className="text-muted-foreground">No composition data available.</p>
               )}
             </CardContent>
           </Card>
@@ -280,6 +281,50 @@ export function IngredientProfile({
                 </div>
               ) : (
                 <p className="text-muted-foreground">No physicochemical data available.</p>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Techno-functionalities Panel */}
+        <TabsContent value="techno-functionalities" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <FlaskConical className="h-5 w-5" />
+                Techno-functionalities
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {ingredient.technoFunctionalities ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="p-4 bg-muted rounded-lg">
+                    <p className="text-sm text-muted-foreground">Gel Strength</p>
+                    <p className="text-2xl font-bold">{ingredient.technoFunctionalities.gelStrength} <span className="text-sm font-normal">Bloom g</span></p>
+                  </div>
+                  <div className="p-4 bg-muted rounded-lg">
+                    <p className="text-sm text-muted-foreground">Viscosity</p>
+                    <p className="text-2xl font-bold">{ingredient.technoFunctionalities.viscosity} <span className="text-sm font-normal">mPa·s</span></p>
+                  </div>
+                  <div className="p-4 bg-muted rounded-lg">
+                    <p className="text-sm text-muted-foreground">Solubility</p>
+                    <p className="text-2xl font-bold">{ingredient.technoFunctionalities.solubility}%</p>
+                  </div>
+                  <div className="p-4 bg-muted rounded-lg">
+                    <p className="text-sm text-muted-foreground">Water Holding Capacity</p>
+                    <p className="text-2xl font-bold">{ingredient.technoFunctionalities.waterHoldingCapacity} <span className="text-sm font-normal">g/g</span></p>
+                  </div>
+                  <div className="p-4 bg-muted rounded-lg">
+                    <p className="text-sm text-muted-foreground">Emulsifying Capacity</p>
+                    <p className="text-2xl font-bold">{ingredient.technoFunctionalities.emulsifyingCapacity}%</p>
+                  </div>
+                  <div className="p-4 bg-muted rounded-lg">
+                    <p className="text-sm text-muted-foreground">Foaming Capacity</p>
+                    <p className="text-2xl font-bold">{ingredient.technoFunctionalities.foamingCapacity}%</p>
+                  </div>
+                </div>
+              ) : (
+                <p className="text-muted-foreground">No techno-functional data available.</p>
               )}
             </CardContent>
           </Card>

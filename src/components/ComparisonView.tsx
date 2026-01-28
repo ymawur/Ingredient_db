@@ -213,7 +213,7 @@ export function ComparisonView({
 
           <div className="my-2 border-t" />
 
-          {/* Nutritional */}
+          {/* Composition */}
           <ComparisonRow
             label="Energy (kcal/100g)"
             ingredients={comparisonIngredients}
