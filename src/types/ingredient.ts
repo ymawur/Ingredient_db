@@ -13,6 +13,15 @@ export interface PhysicochemicalSpecs {
   measurementTemp?: number; // °C
 }
 
+export interface TechnoFunctionalities {
+  gelStrength: number; // Bloom g
+  viscosity: number; // mPa·s
+  solubility: number; // % at 20°C
+  waterHoldingCapacity: number; // g water/g
+  emulsifyingCapacity: number; // %
+  foamingCapacity: number; // %
+}
+
 export interface RegulatoryStatus {
   eu?: {
     eNumber?: string;
@@ -38,29 +47,17 @@ export interface AllergenInfo {
 }
 
 export type IngredientCategory = 
-  | 'Hydrocolloids'
-  | 'Emulsifiers'
-  | 'Sweeteners'
-  | 'Preservatives'
-  | 'Antioxidants'
-  | 'Colorants'
-  | 'Flavor Enhancers'
-  | 'Acidity Regulators'
-  | 'Thickeners'
-  | 'Stabilizers'
-  | 'Leavening Agents'
-  | 'Anti-caking Agents'
-  | 'Humectants'
-  | 'Enzymes'
-  | 'Vitamins'
-  | 'Minerals'
-  | 'Amino Acids'
-  | 'Fatty Acids';
+  | 'Plant Protein Isolates'
+  | 'Plant Protein Concentrates'
+  | 'Textured Plant Proteins'
+  | 'Protein Flours'
+  | 'Protein Blends'
+  | 'Protein Hydrolysates'
+  | 'Whole-Source Proteins';
 
 export interface Ingredient {
   id: string;
   name: string;
-  nameCN: string;
   synonyms: string[];
   casNumber?: string;
   eNumber?: string;
@@ -77,6 +74,7 @@ export interface Ingredient {
   // Data
   nutritional?: NutritionalValues;
   physicochemical?: PhysicochemicalSpecs;
+  technoFunctionalities?: TechnoFunctionalities;
   regulatory: RegulatoryStatus;
   allergens: AllergenInfo[];
   

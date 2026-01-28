@@ -138,7 +138,6 @@ function App() {
     const newIngredient: Ingredient = {
       id: `custom-${now.getTime()}`,
       name: values.name,
-      nameCN: values.nameCN || '',
       synonyms: values.synonyms
         ? values.synonyms.split(',').map((synonym) => synonym.trim()).filter(Boolean)
         : [],

@@ -60,7 +60,6 @@ export function useFilters(ingredients: Ingredient[]) {
         const query = filters.searchQuery.toLowerCase();
         const searchFields = [
           ingredient.name,
-          ingredient.nameCN,
           ingredient.eNumber,
           ingredient.casNumber,
           ...ingredient.synonyms,
