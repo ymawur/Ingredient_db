@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { IngredientCategory } from '@/types/ingredient';
+import { categories } from '@/data/ingredients';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -8,30 +9,34 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 
-const categories: IngredientCategory[] = [
-  'Hydrocolloids',
-  'Emulsifiers',
-  'Sweeteners',
-  'Preservatives',
-  'Antioxidants',
-  'Colorants',
-  'Flavor Enhancers',
-  'Acidity Regulators',
-  'Thickeners',
-  'Stabilizers',
-  'Leavening Agents',
-  'Anti-caking Agents',
-  'Humectants',
-  'Enzymes',
-  'Vitamins',
-  'Minerals',
-  'Amino Acids',
-  'Fatty Acids',
-];
+export interface AddIngredientFormValues {
+  name: string;
+  category: IngredientCategory;
+  description: string;
+  casNumber: string;
+  eNumber: string;
+  synonyms: string;
+  commonUses: string;
+  energy: string;
+  protein: string;
+  carbs: string;
+  fat: string;
+  fiber: string;
+  waterActivity: string;
+  pH: string;
+  density: string;
+  measurementTemp: string;
+  isGlutenFree: boolean;
+  isVegan: boolean;
+  isNatural: boolean;
+  isSynthetic: boolean;
+  isEUApproved: boolean;
+  isGRAS: boolean;
+  isChinaCompliant: boolean;
+}
 
-const defaultFormValues = {
+const defaultFormValues: AddIngredientFormValues = {
   name: '',
-  nameCN: '',
   category: categories[0],
   description: '',
   casNumber: '',
@@ -56,15 +61,13 @@ const defaultFormValues = {
   isChinaCompliant: true,
 };
 
-export type AddIngredientFormValues = typeof defaultFormValues;
-
 interface AddIngredientDialogProps {
   onAdd: (values: AddIngredientFormValues) => void;
 }
 
 export function AddIngredientDialog({ onAdd }: AddIngredientDialogProps) {
   const [open, setOpen] = useState(false);
-  const [formValues, setFormValues] = useState(defaultFormValues);
+  const [formValues, setFormValues] = useState<AddIngredientFormValues>(defaultFormValues);
   const [error, setError] = useState('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -79,7 +82,6 @@ export function AddIngredientDialog({ onAdd }: AddIngredientDialogProps) {
     onAdd({
       ...formValues,
       name: formValues.name.trim(),
-      nameCN: formValues.nameCN.trim(),
       description: formValues.description.trim(),
       casNumber: formValues.casNumber.trim(),
       eNumber: formValues.eNumber.trim(),
@@ -120,15 +122,6 @@ export function AddIngredientDialog({ onAdd }: AddIngredientDialogProps) {
                 onChange={(event) => setFormValues((prev) => ({ ...prev, name: event.target.value }))}
                 placeholder="e.g. Xanthan Gum"
                 required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="ingredient-name-cn">Chinese name</Label>
-              <Input
-                id="ingredient-name-cn"
-                value={formValues.nameCN}
-                onChange={(event) => setFormValues((prev) => ({ ...prev, nameCN: event.target.value }))}
-                placeholder="Optional"
               />
             </div>
             <div className="space-y-2">
