@@ -17,7 +17,6 @@ export function exportToCSV(ingredient: Ingredient): void {
   const headers = [
     'ID',
     'Name',
-    'Name (CN)',
     'Synonyms',
     'CAS Number',
     'E-Number',
@@ -53,7 +52,6 @@ export function exportToCSV(ingredient: Ingredient): void {
   const row = [
     ingredient.id,
     ingredient.name,
-    ingredient.nameCN,
     ingredient.synonyms.join('; '),
     ingredient.casNumber || '',
     ingredient.eNumber || '',
@@ -106,7 +104,6 @@ export function exportBulkToCSV(ingredients: Ingredient[]): void {
   const headers = [
     'ID',
     'Name',
-    'Name (CN)',
     'Synonyms',
     'CAS Number',
     'E-Number',
@@ -138,7 +135,6 @@ export function exportBulkToCSV(ingredients: Ingredient[]): void {
   const rows = ingredients.map(ingredient => [
     ingredient.id,
     ingredient.name,
-    ingredient.nameCN,
     ingredient.synonyms.join('; '),
     ingredient.casNumber || '',
     ingredient.eNumber || '',

@@ -128,7 +128,6 @@ export function ComparisonView({
                 <div className="space-y-2">
                   <Badge className={getCategoryColor(ing.category)}>{ing.category}</Badge>
                   <h3 className="font-semibold">{ing.name}</h3>
-                  <p className="text-sm text-muted-foreground">{ing.nameCN}</p>
                   {ing.eNumber && (
                     <Badge variant="outline" className="text-xs">
                       {ing.eNumber}

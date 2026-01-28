@@ -62,7 +62,6 @@ export function IngredientCard({
             <h3 className="mt-2 font-semibold text-lg leading-tight group-hover:text-primary transition-colors">
               {ingredient.name}
             </h3>
-            <p className="text-sm text-muted-foreground">{ingredient.nameCN}</p>
           </div>
         </div>
       </CardHeader>
