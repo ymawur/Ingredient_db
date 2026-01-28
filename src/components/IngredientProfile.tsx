@@ -143,7 +143,6 @@ export function IngredientProfile({
       {/* Title Section */}
       <div className="space-y-2">
         <h1 className="text-3xl font-bold">{ingredient.name}</h1>
-        <p className="text-xl text-muted-foreground">{ingredient.nameCN}</p>
         <div className="flex items-center gap-4 flex-wrap text-sm text-muted-foreground">
           {ingredient.eNumber && (
             <span className="flex items-center gap-1">

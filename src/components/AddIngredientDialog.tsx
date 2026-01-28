@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { IngredientCategory } from '@/types/ingredient';
+import { categories } from '@/data/ingredients';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -8,30 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 
-const categories: IngredientCategory[] = [
-  'Hydrocolloids',
-  'Emulsifiers',
-  'Sweeteners',
-  'Preservatives',
-  'Antioxidants',
-  'Colorants',
-  'Flavor Enhancers',
-  'Acidity Regulators',
-  'Thickeners',
-  'Stabilizers',
-  'Leavening Agents',
-  'Anti-caking Agents',
-  'Humectants',
-  'Enzymes',
-  'Vitamins',
-  'Minerals',
-  'Amino Acids',
-  'Fatty Acids',
-];
-
 const defaultFormValues = {
   name: '',
-  nameCN: '',
   category: categories[0],
   description: '',
   casNumber: '',
@@ -79,7 +58,6 @@ export function AddIngredientDialog({ onAdd }: AddIngredientDialogProps) {
     onAdd({
       ...formValues,
       name: formValues.name.trim(),
-      nameCN: formValues.nameCN.trim(),
       description: formValues.description.trim(),
       casNumber: formValues.casNumber.trim(),
       eNumber: formValues.eNumber.trim(),
@@ -120,15 +98,6 @@ export function AddIngredientDialog({ onAdd }: AddIngredientDialogProps) {
                 onChange={(event) => setFormValues((prev) => ({ ...prev, name: event.target.value }))}
                 placeholder="e.g. Xanthan Gum"
                 required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="ingredient-name-cn">Chinese name</Label>
-              <Input
-                id="ingredient-name-cn"
-                value={formValues.nameCN}
-                onChange={(event) => setFormValues((prev) => ({ ...prev, nameCN: event.target.value }))}
-                placeholder="Optional"
               />
             </div>
             <div className="space-y-2">
