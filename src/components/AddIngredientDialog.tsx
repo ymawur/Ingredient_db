@@ -9,7 +9,33 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 
-const defaultFormValues = {
+export interface AddIngredientFormValues {
+  name: string;
+  category: IngredientCategory;
+  description: string;
+  casNumber: string;
+  eNumber: string;
+  synonyms: string;
+  commonUses: string;
+  energy: string;
+  protein: string;
+  carbs: string;
+  fat: string;
+  fiber: string;
+  waterActivity: string;
+  pH: string;
+  density: string;
+  measurementTemp: string;
+  isGlutenFree: boolean;
+  isVegan: boolean;
+  isNatural: boolean;
+  isSynthetic: boolean;
+  isEUApproved: boolean;
+  isGRAS: boolean;
+  isChinaCompliant: boolean;
+}
+
+const defaultFormValues: AddIngredientFormValues = {
   name: '',
   category: categories[0],
   description: '',
@@ -35,15 +61,13 @@ const defaultFormValues = {
   isChinaCompliant: true,
 };
 
-export type AddIngredientFormValues = typeof defaultFormValues;
-
 interface AddIngredientDialogProps {
   onAdd: (values: AddIngredientFormValues) => void;
 }
 
 export function AddIngredientDialog({ onAdd }: AddIngredientDialogProps) {
   const [open, setOpen] = useState(false);
-  const [formValues, setFormValues] = useState(defaultFormValues);
+  const [formValues, setFormValues] = useState<AddIngredientFormValues>(defaultFormValues);
   const [error, setError] = useState('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
