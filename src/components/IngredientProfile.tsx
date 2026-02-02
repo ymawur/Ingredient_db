@@ -20,7 +20,7 @@ import {
   FlaskConical,
   Utensils,
 } from 'lucide-react';
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
+import { CartesianGrid, Scatter, ScatterChart, XAxis, YAxis } from 'recharts';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -55,7 +55,11 @@ export function IngredientProfile({
     if (!baseViscosity) {
       return [];
     }
-    const shearRates = [1, 5, 10, 50, 100, 500, 1000];
+    const shearRates = [
+      1, 2, 3, 5, 8,
+      12, 18, 25, 40, 60,
+      85, 120, 200, 400, 800,
+    ];
     return shearRates.map((shearRate) => ({
       shearRate,
       viscosity: Number((baseViscosity * Math.pow(shearRate, -0.12)).toFixed(1)),
@@ -422,7 +426,7 @@ export function IngredientProfile({
                     Shear rate vs viscosity (mPa·s) at the ingredient's measurement temperature.
                   </div>
                   <ChartContainer config={viscosityChartConfig} className="h-72 w-full">
-                    <LineChart data={viscosityCurve} margin={{ top: 10, right: 16, bottom: 10, left: 0 }}>
+                    <ScatterChart data={viscosityCurve} margin={{ top: 10, right: 16, bottom: 10, left: 0 }}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis
                         dataKey="shearRate"
@@ -443,14 +447,8 @@ export function IngredientProfile({
                           />
                         }
                       />
-                      <Line
-                        type="monotone"
-                        dataKey="viscosity"
-                        stroke="var(--color-viscosity)"
-                        strokeWidth={2}
-                        dot={{ r: 3 }}
-                      />
-                    </LineChart>
+                      <Scatter dataKey="viscosity" fill="#000000" />
+                    </ScatterChart>
                   </ChartContainer>
                 </div>
               ) : (
