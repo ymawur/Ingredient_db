@@ -97,25 +97,6 @@ export function IngredientCard({
             )}
           </div>
 
-          {/* Regulatory Badges */}
-          <div className="flex items-center gap-1 flex-wrap">
-            {ingredient.regulatory.fda?.gras && (
-              <Badge variant="outline" className="text-[10px] px-1 py-0 h-4">
-                GRAS
-              </Badge>
-            )}
-            {ingredient.regulatory.china?.compliant && (
-              <Badge variant="outline" className="text-[10px] px-1 py-0 h-4">
-                GB
-              </Badge>
-            )}
-            {ingredient.regulatory.eu?.approved && (
-              <Badge variant="outline" className="text-[10px] px-1 py-0 h-4">
-                EU
-              </Badge>
-            )}
-          </div>
-
           {/* Action Buttons */}
           <div className="flex items-center gap-2 pt-2">
             <Button

@@ -6,7 +6,6 @@ import { IngredientGrid } from '@/components/IngredientGrid';
 import { IngredientProfile } from '@/components/IngredientProfile';
 import { ComparisonView } from '@/components/ComparisonView';
 import { CategoryDirectory } from '@/components/CategoryDirectory';
-import { QuickFilters } from '@/components/QuickFilters';
 import { AddIngredientDialog, type AddIngredientFormValues } from '@/components/AddIngredientDialog';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -164,16 +163,7 @@ function App() {
           ? parseNumberWithFallback(values.measurementTemp, 0)
           : undefined,
       },
-      regulatory: {
-        eu: { approved: values.isEUApproved, eNumber: values.eNumber || undefined },
-        fda: { gras: values.isGRAS },
-        china: { compliant: values.isChinaCompliant },
-      },
       allergens: [],
-      commonUses: values.commonUses
-        ? values.commonUses.split(',').map((use) => use.trim()).filter(Boolean)
-        : [],
-      maxDosage: undefined,
       createdAt: formattedDate,
       updatedAt: formattedDate,
     };
@@ -242,8 +232,7 @@ function App() {
                 INFOTECH Ingredient Database
               </h1>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Comprehensive database of food ingredients with regulatory compliance, 
-                nutritional data, and physicochemical properties.
+                Comprehensive database of food ingredients with nutritional data and physicochemical properties.
               </p>
             </div>
 
@@ -308,16 +297,6 @@ function App() {
                     </SheetContent>
                   </Sheet>
                 </div>
-
-                {/* Quick Filters */}
-                <QuickFilters
-                  isGRAS={filters.isGRAS}
-                  isChinaCompliant={filters.isChinaCompliant}
-                  isEUApproved={filters.isEUApproved}
-                  onToggleGRAS={() => toggleFilter('isGRAS')}
-                  onToggleChina={() => toggleFilter('isChinaCompliant')}
-                  onToggleEU={() => toggleFilter('isEUApproved')}
-                />
 
                 {/* Ingredient Grid */}
                 <IngredientGrid

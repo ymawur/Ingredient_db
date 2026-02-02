@@ -22,24 +22,6 @@ export interface TechnoFunctionalities {
   foamingCapacity: number; // %
 }
 
-export interface RegulatoryStatus {
-  eu?: {
-    eNumber?: string;
-    approved: boolean;
-    restrictions?: string;
-  };
-  fda?: {
-    gras: boolean;
-    cfrReference?: string;
-    restrictions?: string;
-  };
-  china?: {
-    gbStandard?: string;
-    compliant: boolean;
-    restrictions?: string;
-  };
-}
-
 export interface AllergenInfo {
   name: string;
   severity: 'high' | 'medium' | 'low';
@@ -75,12 +57,7 @@ export interface Ingredient {
   nutritional?: NutritionalValues;
   physicochemical?: PhysicochemicalSpecs;
   technoFunctionalities?: TechnoFunctionalities;
-  regulatory: RegulatoryStatus;
   allergens: AllergenInfo[];
-  
-  // Applications
-  commonUses?: string[];
-  maxDosage?: string;
   
   // Metadata
   createdAt: string;
@@ -92,9 +69,6 @@ export interface FilterState {
   categories: IngredientCategory[];
   isGlutenFree: boolean;
   isVegan: boolean;
-  isGRAS: boolean;
-  isChinaCompliant: boolean;
-  isEUApproved: boolean;
   pHRange: [number, number];
   waterActivityRange: [number, number];
 }

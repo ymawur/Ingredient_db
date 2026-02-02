@@ -16,7 +16,6 @@ export interface AddIngredientFormValues {
   casNumber: string;
   eNumber: string;
   synonyms: string;
-  commonUses: string;
   energy: string;
   protein: string;
   carbs: string;
@@ -30,9 +29,6 @@ export interface AddIngredientFormValues {
   isVegan: boolean;
   isNatural: boolean;
   isSynthetic: boolean;
-  isEUApproved: boolean;
-  isGRAS: boolean;
-  isChinaCompliant: boolean;
 }
 
 const defaultFormValues: AddIngredientFormValues = {
@@ -42,7 +38,6 @@ const defaultFormValues: AddIngredientFormValues = {
   casNumber: '',
   eNumber: '',
   synonyms: '',
-  commonUses: '',
   energy: '',
   protein: '',
   carbs: '',
@@ -56,9 +51,6 @@ const defaultFormValues: AddIngredientFormValues = {
   isVegan: true,
   isNatural: true,
   isSynthetic: false,
-  isEUApproved: true,
-  isGRAS: true,
-  isChinaCompliant: true,
 };
 
 interface AddIngredientDialogProps {
@@ -86,7 +78,6 @@ export function AddIngredientDialog({ onAdd }: AddIngredientDialogProps) {
       casNumber: formValues.casNumber.trim(),
       eNumber: formValues.eNumber.trim(),
       synonyms: formValues.synonyms.trim(),
-      commonUses: formValues.commonUses.trim(),
     });
     setOpen(false);
     setFormValues(defaultFormValues);
@@ -109,7 +100,7 @@ export function AddIngredientDialog({ onAdd }: AddIngredientDialogProps) {
         <DialogHeader>
           <DialogTitle>Add a new ingredient</DialogTitle>
           <DialogDescription>
-            Capture the core regulatory and labeling data so it appears in the ingredient database.
+            Capture the core nutritional and physicochemical data so it appears in the ingredient database.
           </DialogDescription>
         </DialogHeader>
         <form className="space-y-4" onSubmit={handleSubmit}>
@@ -179,15 +170,6 @@ export function AddIngredientDialog({ onAdd }: AddIngredientDialogProps) {
                 value={formValues.synonyms}
                 onChange={(event) => setFormValues((prev) => ({ ...prev, synonyms: event.target.value }))}
                 placeholder="e.g. E415, Polysaccharide"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="ingredient-uses">Common uses (comma separated)</Label>
-              <Input
-                id="ingredient-uses"
-                value={formValues.commonUses}
-                onChange={(event) => setFormValues((prev) => ({ ...prev, commonUses: event.target.value }))}
-                placeholder="e.g. Sauces, Dressings"
               />
             </div>
           </div>
@@ -288,7 +270,7 @@ export function AddIngredientDialog({ onAdd }: AddIngredientDialogProps) {
               />
             </div>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-1">
             <div className="space-y-3">
               <p className="text-sm font-medium">Product attributes</p>
               <div className="flex items-center justify-between gap-3">
@@ -321,33 +303,6 @@ export function AddIngredientDialog({ onAdd }: AddIngredientDialogProps) {
                   id="ingredient-synthetic"
                   checked={formValues.isSynthetic}
                   onCheckedChange={(checked) => setFormValues((prev) => ({ ...prev, isSynthetic: checked }))}
-                />
-              </div>
-            </div>
-            <div className="space-y-3">
-              <p className="text-sm font-medium">Regulatory status</p>
-              <div className="flex items-center justify-between gap-3">
-                <Label htmlFor="ingredient-eu">EU approved</Label>
-                <Switch
-                  id="ingredient-eu"
-                  checked={formValues.isEUApproved}
-                  onCheckedChange={(checked) => setFormValues((prev) => ({ ...prev, isEUApproved: checked }))}
-                />
-              </div>
-              <div className="flex items-center justify-between gap-3">
-                <Label htmlFor="ingredient-gras">FDA GRAS</Label>
-                <Switch
-                  id="ingredient-gras"
-                  checked={formValues.isGRAS}
-                  onCheckedChange={(checked) => setFormValues((prev) => ({ ...prev, isGRAS: checked }))}
-                />
-              </div>
-              <div className="flex items-center justify-between gap-3">
-                <Label htmlFor="ingredient-china">China compliant</Label>
-                <Switch
-                  id="ingredient-china"
-                  checked={formValues.isChinaCompliant}
-                  onCheckedChange={(checked) => setFormValues((prev) => ({ ...prev, isChinaCompliant: checked }))}
                 />
               </div>
             </div>
