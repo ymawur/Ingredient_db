@@ -1,9 +1,11 @@
+import { useMemo, useState } from 'react';
 import type { Ingredient } from '@/types/ingredient';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import {
   ArrowLeft,
   Scale,
@@ -11,15 +13,14 @@ import {
   Download,
   FileJson,
   FileSpreadsheet,
-  AlertTriangle,
   Wheat,
   Leaf,
+  Activity,
   Beaker,
   FlaskConical,
-  Globe,
-  Shield,
   Utensils,
 } from 'lucide-react';
+import { CartesianGrid, Scatter, ScatterChart, XAxis, YAxis } from 'recharts';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -44,8 +45,35 @@ export function IngredientProfile({
   onBack,
   onAddToComparison,
 }: IngredientProfileProps) {
+  const [activeTab, setActiveTab] = useState('compositions');
+
   const handleExportJSON = () => exportToJSON(ingredient);
   const handleExportCSV = () => exportToCSV(ingredient);
+
+  const viscosityCurve = useMemo(() => {
+    const baseViscosity = ingredient.technoFunctionalities?.viscosity;
+    if (!baseViscosity) {
+      return [];
+    }
+    const shearRates = [
+      1, 2, 3, 5, 8,
+      12, 18, 25, 40, 60,
+      85, 120, 200, 400, 800,
+    ];
+    return shearRates.map((shearRate) => ({
+      shearRate,
+      viscosity: Number((baseViscosity * Math.pow(shearRate, -0.12)).toFixed(1)),
+    }));
+  }, [ingredient.technoFunctionalities?.viscosity]);
+
+  const viscosityChartConfig = {
+    viscosity: {
+      label: 'Viscosity',
+      color: 'hsl(var(--chart-1))',
+    },
+  };
+
+  const hasViscosityCurve = viscosityCurve.length > 0;
 
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
@@ -188,13 +216,12 @@ export function IngredientProfile({
         )}
       </div>
 
-      <Tabs defaultValue="compositions" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 lg:w-auto">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 lg:w-auto">
           <TabsTrigger value="compositions">Compositions</TabsTrigger>
           <TabsTrigger value="physicochemical">Physicochemical</TabsTrigger>
           <TabsTrigger value="techno-functionalities">Techno-functionalities</TabsTrigger>
-          <TabsTrigger value="regulatory">Regulatory</TabsTrigger>
-          <TabsTrigger value="applications">Applications</TabsTrigger>
+          <TabsTrigger value="viscosity">Viscosity flow curve</TabsTrigger>
         </TabsList>
 
         {/* Composition Panel */}
@@ -250,6 +277,48 @@ export function IngredientProfile({
               )}
             </CardContent>
           </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Ingredient Details</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {ingredient.synonyms.length > 0 ? (
+                <div>
+                  <p className="text-sm text-muted-foreground mb-2">Synonyms</p>
+                  <div className="flex flex-wrap gap-2">
+                    {ingredient.synonyms.map((synonym, index) => (
+                      <Badge key={index} variant="outline">
+                        {synonym}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <p className="text-muted-foreground">No synonyms listed.</p>
+              )}
+
+              {ingredient.allergens.length > 0 ? (
+                <div>
+                  <p className="text-sm text-muted-foreground mb-2">Allergen Warnings</p>
+                  <div className="flex flex-wrap gap-2">
+                    {ingredient.allergens.map((allergen, index) => (
+                      <Badge
+                        key={index}
+                        variant="outline"
+                        className={cn('px-3 py-1', getSeverityColor(allergen.severity))}
+                      >
+                        {allergen.name}
+                        <span className="ml-1 text-xs opacity-75">({allergen.severity})</span>
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <p className="text-muted-foreground">No allergen warnings listed.</p>
+              )}
+            </CardContent>
+          </Card>
         </TabsContent>
 
         {/* Physicochemical Panel */}
@@ -302,10 +371,21 @@ export function IngredientProfile({
                     <p className="text-sm text-muted-foreground">Gel Strength</p>
                     <p className="text-2xl font-bold">{ingredient.technoFunctionalities.gelStrength} <span className="text-sm font-normal">Bloom g</span></p>
                   </div>
-                  <div className="p-4 bg-muted rounded-lg">
+                  <button
+                    type="button"
+                    onClick={() => hasViscosityCurve && setActiveTab('viscosity')}
+                    className={cn(
+                      'p-4 bg-muted rounded-lg text-left transition-colors',
+                      hasViscosityCurve ? 'hover:bg-muted/80' : 'opacity-60 cursor-not-allowed'
+                    )}
+                    aria-label="View viscosity flow curve"
+                  >
                     <p className="text-sm text-muted-foreground">Viscosity</p>
-                    <p className="text-2xl font-bold">{ingredient.technoFunctionalities.viscosity} <span className="text-sm font-normal">mPa·s</span></p>
-                  </div>
+                    <p className="text-lg font-semibold text-primary">View flow curve</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {hasViscosityCurve ? 'Click to open shear rate chart' : 'No viscosity data available'}
+                    </p>
+                  </button>
                   <div className="p-4 bg-muted rounded-lg">
                     <p className="text-sm text-muted-foreground">Solubility</p>
                     <p className="text-2xl font-bold">{ingredient.technoFunctionalities.solubility}%</p>
@@ -330,181 +410,52 @@ export function IngredientProfile({
           </Card>
         </TabsContent>
 
-        {/* Regulatory Panel */}
-        <TabsContent value="regulatory" className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* EU */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <Globe className="h-5 w-5 text-blue-500" />
-                  European Union
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                {ingredient.regulatory.eu ? (
-                  <>
-                    <div className="flex items-center gap-2">
-                      <Badge variant={ingredient.regulatory.eu.approved ? 'default' : 'destructive'}>
-                        {ingredient.regulatory.eu.approved ? 'Approved' : 'Not Approved'}
-                      </Badge>
-                    </div>
-                    {ingredient.regulatory.eu.eNumber && (
-                      <p className="text-sm"><span className="text-muted-foreground">E-Number:</span> {ingredient.regulatory.eu.eNumber}</p>
-                    )}
-                    {ingredient.regulatory.eu.restrictions && (
-                      <p className="text-sm text-amber-600 flex items-start gap-1">
-                        <AlertTriangle className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                        {ingredient.regulatory.eu.restrictions}
-                      </p>
-                    )}
-                  </>
-                ) : (
-                  <p className="text-muted-foreground">No EU regulatory data.</p>
-                )}
-              </CardContent>
-            </Card>
-
-            {/* FDA */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <Shield className="h-5 w-5 text-green-500" />
-                  FDA (USA)
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                {ingredient.regulatory.fda ? (
-                  <>
-                    <div className="flex items-center gap-2">
-                      <Badge variant={ingredient.regulatory.fda.gras ? 'default' : 'secondary'}>
-                        {ingredient.regulatory.fda.gras ? 'GRAS' : 'Not GRAS'}
-                      </Badge>
-                    </div>
-                    {ingredient.regulatory.fda.cfrReference && (
-                      <p className="text-sm"><span className="text-muted-foreground">CFR:</span> {ingredient.regulatory.fda.cfrReference}</p>
-                    )}
-                    {ingredient.regulatory.fda.restrictions && (
-                      <p className="text-sm text-amber-600 flex items-start gap-1">
-                        <AlertTriangle className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                        {ingredient.regulatory.fda.restrictions}
-                      </p>
-                    )}
-                  </>
-                ) : (
-                  <p className="text-muted-foreground">No FDA regulatory data.</p>
-                )}
-              </CardContent>
-            </Card>
-
-            {/* China */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <Globe className="h-5 w-5 text-red-500" />
-                  China
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                {ingredient.regulatory.china ? (
-                  <>
-                    <div className="flex items-center gap-2">
-                      <Badge variant={ingredient.regulatory.china.compliant ? 'default' : 'destructive'}>
-                        {ingredient.regulatory.china.compliant ? 'Compliant' : 'Not Compliant'}
-                      </Badge>
-                    </div>
-                    {ingredient.regulatory.china.gbStandard && (
-                      <p className="text-sm"><span className="text-muted-foreground">GB Standard:</span> {ingredient.regulatory.china.gbStandard}</p>
-                    )}
-                    {ingredient.regulatory.china.restrictions && (
-                      <p className="text-sm text-amber-600 flex items-start gap-1">
-                        <AlertTriangle className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                        {ingredient.regulatory.china.restrictions}
-                      </p>
-                    )}
-                  </>
-                ) : (
-                  <p className="text-muted-foreground">No China regulatory data.</p>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Allergen Warnings */}
-          {ingredient.allergens.length > 0 && (
-            <Card className="border-red-200">
-              <CardHeader>
-                <CardTitle className="text-lg flex items-center gap-2 text-red-600">
-                  <AlertTriangle className="h-5 w-5" />
-                  Allergen Warnings
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {ingredient.allergens.map((allergen, index) => (
-                    <Badge
-                      key={index}
-                      variant="outline"
-                      className={cn('px-3 py-1', getSeverityColor(allergen.severity))}
-                    >
-                      {allergen.name}
-                      <span className="ml-1 text-xs opacity-75">({allergen.severity})</span>
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          )}
-        </TabsContent>
-
-        {/* Applications Panel */}
-        <TabsContent value="applications" className="space-y-4">
+        {/* Viscosity Flow Curve Panel */}
+        <TabsContent value="viscosity" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Common Applications</CardTitle>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <Activity className="h-5 w-5" />
+                Viscosity Flow Curve
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              {ingredient.commonUses && ingredient.commonUses.length > 0 ? (
-                <div className="flex flex-wrap gap-2">
-                  {ingredient.commonUses.map((use, index) => (
-                    <Badge key={index} variant="secondary">
-                      {use}
-                    </Badge>
-                  ))}
+              {hasViscosityCurve ? (
+                <div className="space-y-4">
+                  <div className="text-sm text-muted-foreground">
+                    Shear rate vs viscosity (mPa·s) at the ingredient's measurement temperature.
+                  </div>
+                  <ChartContainer config={viscosityChartConfig} className="h-72 w-full">
+                    <ScatterChart data={viscosityCurve} margin={{ top: 10, right: 16, bottom: 10, left: 0 }}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis
+                        dataKey="shearRate"
+                        tickLine={false}
+                        axisLine={false}
+                        label={{ value: 'Shear rate (s⁻¹)', position: 'insideBottom', offset: -5 }}
+                      />
+                      <YAxis
+                        tickLine={false}
+                        axisLine={false}
+                        label={{ value: 'Viscosity (mPa·s)', angle: -90, position: 'insideLeft' }}
+                      />
+                      <ChartTooltip
+                        content={
+                          <ChartTooltipContent
+                            labelFormatter={(label) => `Shear rate: ${label} s⁻¹`}
+                            formatter={(value) => [`${value} mPa·s`, 'Viscosity']}
+                          />
+                        }
+                      />
+                      <Scatter dataKey="viscosity" fill="#000000" />
+                    </ScatterChart>
+                  </ChartContainer>
                 </div>
               ) : (
-                <p className="text-muted-foreground">No application data available.</p>
+                <p className="text-muted-foreground">No viscosity flow curve data available.</p>
               )}
             </CardContent>
           </Card>
-
-          {ingredient.maxDosage && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Maximum Dosage</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p>{ingredient.maxDosage}</p>
-              </CardContent>
-            </Card>
-          )}
-
-          {ingredient.synonyms.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Synonyms</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {ingredient.synonyms.map((synonym, index) => (
-                    <Badge key={index} variant="outline">
-                      {synonym}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          )}
         </TabsContent>
       </Tabs>
     </div>

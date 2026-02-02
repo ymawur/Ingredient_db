@@ -262,33 +262,6 @@ export function ComparisonView({
             compareNumeric
           />
 
-          <div className="my-2 border-t" />
-
-          {/* Regulatory */}
-          <ComparisonRow
-            label="EU Approved"
-            ingredients={comparisonIngredients}
-            renderValue={(ing) => (
-              <BooleanBadge value={ing.regulatory.eu?.approved} />
-            )}
-          />
-          <ComparisonRow
-            label="FDA GRAS"
-            ingredients={comparisonIngredients}
-            renderValue={(ing) => (
-              <BooleanBadge value={ing.regulatory.fda?.gras} />
-            )}
-          />
-          <ComparisonRow
-            label="China Compliant"
-            ingredients={comparisonIngredients}
-            renderValue={(ing) => (
-              <BooleanBadge value={ing.regulatory.china?.compliant} />
-            )}
-          />
-
-          <div className="my-2 border-t" />
-
           {/* Allergens */}
           <ComparisonRow
             label="Allergens"
@@ -304,28 +277,6 @@ export function ComparisonView({
                 </div>
               ) : (
                 <span className="text-muted-foreground text-sm">None</span>
-              )
-            )}
-          />
-
-          {/* Common Uses */}
-          <ComparisonRow
-            label="Common Uses"
-            ingredients={comparisonIngredients}
-            renderValue={(ing) => (
-              ing.commonUses && ing.commonUses.length > 0 ? (
-                <div className="flex flex-wrap gap-1">
-                  {ing.commonUses.slice(0, 3).map((use, i) => (
-                    <Badge key={i} variant="secondary" className="text-xs">
-                      {use}
-                    </Badge>
-                  ))}
-                  {ing.commonUses.length > 3 && (
-                    <span className="text-xs text-muted-foreground">+{ing.commonUses.length - 3}</span>
-                  )}
-                </div>
-              ) : (
-                <span className="text-muted-foreground text-sm">N/A</span>
               )
             )}
           />

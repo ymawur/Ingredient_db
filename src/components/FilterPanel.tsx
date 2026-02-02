@@ -14,7 +14,7 @@ interface FilterPanelProps {
   filters: FilterState;
   activeFiltersCount: number;
   onToggleCategory: (category: IngredientCategory) => void;
-  onToggleFilter: (key: 'isGlutenFree' | 'isVegan' | 'isGRAS' | 'isChinaCompliant' | 'isEUApproved') => void;
+  onToggleFilter: (key: 'isGlutenFree' | 'isVegan') => void;
   onSetpHRange: (range: [number, number]) => void;
   onSetWaterActivityRange: (range: [number, number]) => void;
   onClearFilters: () => void;
@@ -110,36 +110,6 @@ export function FilterPanel({
                   />
                   <Label htmlFor="vegan" className="text-sm cursor-pointer">
                     Vegan
-                  </Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="gras"
-                    checked={filters.isGRAS}
-                    onCheckedChange={() => onToggleFilter('isGRAS')}
-                  />
-                  <Label htmlFor="gras" className="text-sm cursor-pointer">
-                    GRAS-approved
-                  </Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="china-compliant"
-                    checked={filters.isChinaCompliant}
-                    onCheckedChange={() => onToggleFilter('isChinaCompliant')}
-                  />
-                  <Label htmlFor="china-compliant" className="text-sm cursor-pointer">
-                    China GB-compliant
-                  </Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="eu-approved"
-                    checked={filters.isEUApproved}
-                    onCheckedChange={() => onToggleFilter('isEUApproved')}
-                  />
-                  <Label htmlFor="eu-approved" className="text-sm cursor-pointer">
-                    EU-approved
                   </Label>
                 </div>
               </div>

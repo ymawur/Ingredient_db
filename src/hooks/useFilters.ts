@@ -7,9 +7,6 @@ export function useFilters(ingredients: Ingredient[]) {
     categories: [],
     isGlutenFree: false,
     isVegan: false,
-    isGRAS: false,
-    isChinaCompliant: false,
-    isEUApproved: false,
     pHRange: [0, 14],
     waterActivityRange: [0, 1.0],
   });
@@ -27,7 +24,7 @@ export function useFilters(ingredients: Ingredient[]) {
     }));
   }, []);
 
-  const toggleFilter = useCallback((key: 'isGlutenFree' | 'isVegan' | 'isGRAS' | 'isChinaCompliant' | 'isEUApproved') => {
+  const toggleFilter = useCallback((key: 'isGlutenFree' | 'isVegan') => {
     setFilters(prev => ({ ...prev, [key]: !prev[key] }));
   }, []);
 
@@ -45,9 +42,6 @@ export function useFilters(ingredients: Ingredient[]) {
       categories: [],
       isGlutenFree: false,
       isVegan: false,
-      isGRAS: false,
-      isChinaCompliant: false,
-      isEUApproved: false,
       pHRange: [0, 14],
       waterActivityRange: [0, 1.0],
     });
@@ -77,9 +71,6 @@ export function useFilters(ingredients: Ingredient[]) {
       // Boolean filters
       if (filters.isGlutenFree && !ingredient.isGlutenFree) return false;
       if (filters.isVegan && !ingredient.isVegan) return false;
-      if (filters.isGRAS && !ingredient.regulatory.fda?.gras) return false;
-      if (filters.isChinaCompliant && !ingredient.regulatory.china?.compliant) return false;
-      if (filters.isEUApproved && !ingredient.regulatory.eu?.approved) return false;
 
       // Range filters
       if (ingredient.physicochemical) {
@@ -98,9 +89,6 @@ export function useFilters(ingredients: Ingredient[]) {
     if (filters.categories.length > 0) count++;
     if (filters.isGlutenFree) count++;
     if (filters.isVegan) count++;
-    if (filters.isGRAS) count++;
-    if (filters.isChinaCompliant) count++;
-    if (filters.isEUApproved) count++;
     if (filters.pHRange[0] > 0 || filters.pHRange[1] < 14) count++;
     if (filters.waterActivityRange[0] > 0 || filters.waterActivityRange[1] < 1.0) count++;
     return count;
