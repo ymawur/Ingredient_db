@@ -6,10 +6,17 @@ interface HeaderProps {
   comparisonCount: number;
   onToggleComparison: () => void;
   onNavigateHome: () => void;
-  currentView: 'browse' | 'profile' | 'comparison';
+  onNavigateMethods: () => void;
+  currentView: 'browse' | 'profile' | 'comparison' | 'methods';
 }
 
-export function Header({ comparisonCount, onToggleComparison, onNavigateHome, currentView }: HeaderProps) {
+export function Header({
+  comparisonCount,
+  onToggleComparison,
+  onNavigateHome,
+  onNavigateMethods,
+  currentView,
+}: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center">
@@ -31,6 +38,13 @@ export function Header({ comparisonCount, onToggleComparison, onNavigateHome, cu
               onClick={onNavigateHome}
             >
               Browse
+            </Button>
+            <Button
+              variant={currentView === 'methods' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={onNavigateMethods}
+            >
+              Methods
             </Button>
             <Button
               variant="ghost"
