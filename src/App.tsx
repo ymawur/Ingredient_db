@@ -10,6 +10,7 @@ import { AddIngredientDialog, type AddIngredientFormValues } from '@/components/
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Filter, ChevronRight } from 'lucide-react';
+import { MethodsPage } from '@/components/MethodsPage';
 import { useFilters } from '@/hooks/useFilters';
 import { useComparison } from '@/hooks/useComparison';
 import { ingredients } from '@/data/ingredients';
@@ -17,7 +18,7 @@ import type { Ingredient } from '@/types/ingredient';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
 
-type ViewState = 'browse' | 'profile' | 'comparison';
+type ViewState = 'browse' | 'profile' | 'comparison' | 'methods';
 const STORAGE_KEY = 'ingredient-db-user-entries';
 
 function App() {
@@ -91,6 +92,11 @@ function App() {
 
   const handleBackToBrowse = useCallback(() => {
     setCurrentView('browse');
+    setSelectedIngredient(null);
+  }, []);
+
+  const handleNavigateMethods = useCallback(() => {
+    setCurrentView('methods');
     setSelectedIngredient(null);
   }, []);
 
@@ -187,6 +193,8 @@ function App() {
       );
     } else if (currentView === 'comparison') {
       items.push({ label: 'Compare', onClick: () => {} });
+    } else if (currentView === 'methods') {
+      items.push({ label: 'Methods', onClick: () => {} });
     }
 
     return (
@@ -218,6 +226,7 @@ function App() {
         comparisonCount={comparisonCount}
         onToggleComparison={handleToggleComparison}
         onNavigateHome={handleBackToBrowse}
+        onNavigateMethods={handleNavigateMethods}
         currentView={currentView}
       />
 
@@ -330,6 +339,8 @@ function App() {
             onClear={clearComparison}
           />
         )}
+
+        {currentView === 'methods' && <MethodsPage />}
       </main>
 
       {/* Footer */}
