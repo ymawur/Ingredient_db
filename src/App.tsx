@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Filter, ChevronRight } from 'lucide-react';
 import { MethodsPage } from '@/components/MethodsPage';
+import { OntologyPage } from '@/components/OntologyPage';
 import { useFilters } from '@/hooks/useFilters';
 import { useComparison } from '@/hooks/useComparison';
 import { ingredients } from '@/data/ingredients';
@@ -18,7 +19,7 @@ import type { Ingredient } from '@/types/ingredient';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
 
-type ViewState = 'browse' | 'profile' | 'comparison' | 'methods';
+type ViewState = 'browse' | 'profile' | 'comparison' | 'methods' | 'ontology';
 const STORAGE_KEY = 'ingredient-db-user-entries';
 
 function App() {
@@ -97,6 +98,11 @@ function App() {
 
   const handleNavigateMethods = useCallback(() => {
     setCurrentView('methods');
+    setSelectedIngredient(null);
+  }, []);
+
+  const handleNavigateOntology = useCallback(() => {
+    setCurrentView('ontology');
     setSelectedIngredient(null);
   }, []);
 
@@ -195,6 +201,8 @@ function App() {
       items.push({ label: 'Compare', onClick: () => {} });
     } else if (currentView === 'methods') {
       items.push({ label: 'Methods', onClick: () => {} });
+    } else if (currentView === 'ontology') {
+      items.push({ label: 'Ontology', onClick: () => {} });
     }
 
     return (
@@ -227,6 +235,7 @@ function App() {
         onToggleComparison={handleToggleComparison}
         onNavigateHome={handleBackToBrowse}
         onNavigateMethods={handleNavigateMethods}
+        onNavigateOntology={handleNavigateOntology}
         currentView={currentView}
       />
 
@@ -341,6 +350,7 @@ function App() {
         )}
 
         {currentView === 'methods' && <MethodsPage />}
+        {currentView === 'ontology' && <OntologyPage />}
       </main>
 
       {/* Footer */}

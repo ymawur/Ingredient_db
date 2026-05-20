@@ -7,7 +7,8 @@ interface HeaderProps {
   onToggleComparison: () => void;
   onNavigateHome: () => void;
   onNavigateMethods: () => void;
-  currentView: 'browse' | 'profile' | 'comparison' | 'methods';
+  onNavigateOntology: () => void;
+  currentView: 'browse' | 'profile' | 'comparison' | 'methods' | 'ontology';
 }
 
 export function Header({
@@ -15,6 +16,7 @@ export function Header({
   onToggleComparison,
   onNavigateHome,
   onNavigateMethods,
+  onNavigateOntology,
   currentView,
 }: HeaderProps) {
   return (
@@ -45,6 +47,13 @@ export function Header({
               onClick={onNavigateMethods}
             >
               Methods
+            </Button>
+            <Button
+              variant={currentView === 'ontology' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={onNavigateOntology}
+            >
+              Ontology
             </Button>
             <Button
               variant="ghost"
